@@ -1,0 +1,22 @@
+services:
+  # mqtt5 eclipse-mosquitto
+  mqtt5:
+    image: eclipse-mosquitto
+    container_name: mqtt5
+    ports:
+      - "1883:1883" #default mqtt port
+      - "9001:9001" #default mqtt port for websockets
+    volumes:
+      - ./config/mosquitto/config:/mosquitto/config:rw
+      - ./config/mosquitto/data:/mosquitto/data:rw
+      - ./config/mosquitto/log:/mosquitto/log:rw
+    restart: unless-stopped
+
+  timescale:
+    image: timescale/timescaledb:2.24.0-pg17
+    ports:
+      - "5432:5432"
+    env_file: app.env
+    volumes:
+      - ./config/timescale/data/:/var/lib/postgresql/data/
+      - ./config/timescale/init/:/docker-entrypoint-initdb.d/
