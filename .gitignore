@@ -1,2 +1,3 @@
 app.env
-config/
+config/mosquitto
+config/timescale/data
